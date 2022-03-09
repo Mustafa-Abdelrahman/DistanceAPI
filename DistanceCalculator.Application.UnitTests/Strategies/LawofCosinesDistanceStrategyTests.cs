@@ -11,12 +11,16 @@ namespace DistanceCalculator.Application.UnitTests.Strategies
     {
         private readonly LawofCosinesDistanceStrategy _sut;
         private readonly Coordinates _coordinates;
+        private readonly Coordinates _sameCoordinates;
         public LawofCosinesDistanceStrategyTests()
         {
             _sut = new LawofCosinesDistanceStrategy();
 
             _coordinates = new Coordinates
             { StartLat = 53.297975, StartLong = -6.372663, DestinationLat = 41.385101, DestinationLong = -81.440440 };
+
+            _sameCoordinates = new Coordinates
+            { StartLat = 53.297975, StartLong = -6.372663, DestinationLat = 53.297975, DestinationLong = -6.372663 };
         }
 
 
@@ -34,6 +38,23 @@ namespace DistanceCalculator.Application.UnitTests.Strategies
             double result = _sut.CalculateDistance(_coordinates, MeasurementUnit.Miles);
             Assert.IsNotNull(result);
             Assert.AreEqual(3439.46, result);
+        }
+
+
+        [TestMethod]
+        public void LawofCosinesDistanceStrategy_CalculateDistanceInKM_ReturnsZero()
+        {
+            double result = _sut.CalculateDistance(_sameCoordinates, MeasurementUnit.Kilometers);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void LawofCosinesDistanceStrategy_CalculateDistanceInMiles_ReturnsZero()
+        {
+            double result = _sut.CalculateDistance(_sameCoordinates, MeasurementUnit.Miles);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result);
         }
     }
 }
